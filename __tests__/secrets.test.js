@@ -49,7 +49,7 @@ describe('backend-10-top-secrets routes', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('it posts a new secret and recieves a secret object in the correct shape', async () => {
+  it('it makes a getall secrets request and recieves an array with objects in the correct state', async () => {
     const [agent] = await registerAndLogin();
     await agent.post('/api/v1/secrets').send(mockSecret);
     const getSecretsResp = await agent.get('/api/v1/secrets');
