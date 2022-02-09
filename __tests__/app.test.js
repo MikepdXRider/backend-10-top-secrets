@@ -33,4 +33,13 @@ describe('backend-10-top-secrets routes', () => {
     const expected = { email: mockUser.email, id: expect.any(String) };
     expect(actual).toEqual(expected);
   });
+
+  it('sends a delete request to logout an existing user', async () => {
+    await request(app).post('/api/v1/users/').send(mockUser);
+    await request(app).post('/api/v1/users/session').send(mockUser);
+    const logoutRes = await request(app).delete('/api/v1/users/session');
+    const actual = logoutRes.body;
+    const expected = "You've been logged out!";
+    expect(actual).toEqual(expected);
+  });
 });
