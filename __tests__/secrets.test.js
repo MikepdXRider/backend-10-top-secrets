@@ -2,9 +2,10 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const UserService = require('../lib/services/UserService');
 
 const mockUser = {
-  email: 'test-email@test.com',
+  email: 'new-test-email@test.com',
   password: 'test-password',
 };
 
@@ -36,8 +37,10 @@ describe('backend-10-top-secrets routes', () => {
   });
 
   it('it posts a new secret and recieves a secret object in the correct shape', async () => {
-    const { agent } = await registerAndLogin();
-    const secretResp = await agent.post('/api/v1/secrets').send(mockSecret);
+    const { agent, user } = await registerAndLogin();
+    const secretResp = await agent
+      .post('/api/v1/secrets')
+      .send({ ...mockUser, userId: user.id });
     const actual = secretResp.body;
     const expected = { ...mockSecret, createdAt: expect.any(string) };
     expect(actual).toEqual(expected);
