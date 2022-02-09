@@ -37,12 +37,10 @@ describe('backend-10-top-secrets routes', () => {
   });
 
   it('it posts a new secret and recieves a secret object in the correct shape', async () => {
-    const { agent, user } = await registerAndLogin();
-    const secretResp = await agent
-      .post('/api/v1/secrets')
-      .send({ ...mockUser, userId: user.id });
+    const [agent] = await registerAndLogin();
+    const secretResp = await agent.post('/api/v1/secrets').send(mockSecret);
     const actual = secretResp.body;
-    const expected = { ...mockSecret, createdAt: expect.any(string) };
+    const expected = { ...mockSecret, createdAt: expect.any(String) };
     expect(actual).toEqual(expected);
   });
 });
