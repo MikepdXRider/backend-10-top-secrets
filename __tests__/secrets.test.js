@@ -23,7 +23,7 @@ const registerAndLogin = async (userProps = {}) => {
   const user = await UserService.create({ ...mockUser, ...userProps });
   // ...then sign in
   const { email } = user;
-  await agent.post('/api/v1/users/sessions').send({ email, password });
+  await agent.post('/api/v1/users/session').send({ email, password });
   return [agent, user];
 };
 
@@ -40,7 +40,12 @@ describe('backend-10-top-secrets routes', () => {
     const [agent] = await registerAndLogin();
     const secretResp = await agent.post('/api/v1/secrets').send(mockSecret);
     const actual = secretResp.body;
-    const expected = { ...mockSecret, createdAt: expect.any(String) };
+    const expected = {
+      ...mockSecret,
+      createdAt: expect.any(String),
+      id: expect.any(String),
+      userId: expect.any(String),
+    };
     expect(actual).toEqual(expected);
   });
 });
