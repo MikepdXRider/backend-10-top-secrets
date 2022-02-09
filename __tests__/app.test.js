@@ -38,7 +38,7 @@ describe('backend-10-top-secrets routes', () => {
     await request(app).post('/api/v1/users/').send(mockUser);
     await request(app).post('/api/v1/users/session').send(mockUser);
     const logoutRes = await request(app).delete('/api/v1/users/session');
-    const actual = logoutRes.body;
+    const actual = logoutRes.body.message;
     const expected = "You've been logged out!";
     expect(actual).toEqual(expected);
   });
