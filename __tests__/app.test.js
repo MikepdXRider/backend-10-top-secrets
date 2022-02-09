@@ -18,9 +18,9 @@ describe('backend-10-top-secrets routes', () => {
   });
 
   it('posts a user and recieves a user object in the correct shape', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockUser);
+    const res = await request(app).post('/api/v1/users/').send(mockUser);
     const actual = res.body;
-    const expected = { email: mockUser.email, id: expect.any(Number) };
+    const expected = { email: mockUser.email, id: expect.any(String) };
     expect(actual).toEqual(expected);
   });
 });
